@@ -1,60 +1,86 @@
-let issues = [];
+// importing the model
+const  Issue  = require("../models/issuesModel");
 
-const getAllIssues = (req, res) => {
-    res.json(issues);
+const getAllIssues = async (req, res) => {
+    try {
+        const issues = await Issue.findAll();
+        res.json(issues);
+
+    }catch (err) {
+        res.status(500).json({message: `${err}`});
+    }
+}
+
+const getIssueById = async (req, res) => {
+    try {
+        const issue = await Issue.findByPk(req.params.id);
+        if (!issue) {
+            return res.status(404).json({ message: "Issue not found" });
+        }
+        res.json(issue);
+    } catch (err) {
+        res.status(500).json({ message: `${err}` });
+    }
 };
 
-const getIssueById = (req, res) => {
-    const issue = issues.find((issue) => issue.id === parseInt(req.params.id));
-    if (!issue) {
-        return res.status(404).json({ message: "Issue not found" });
+const createIssue = async (req, res) => {
+    try {
+        const { title, description, category } = req.body;
+    
+        if (!title || !description) {
+            return res.status(400).json({message: "Title and description are required"});
+
     }
-    res.json(issue);
-};
+    
 
-const createIssue = (req, res) => {
-    const { title, description, category } = req.body;
-
-    if (!title || !description) {
-        return res.status(400).json({message: "Title and description are required"});
-    }
-
-    const newIssue = {
-        id : issues.lenght + 1,
+    const newIssue = await Issue.create({
         title,
         description,
         category: category || "General",
         status: "Open",
         createdAt: new Date()
-    }
-    issues.push(newIssue);
+    });
     res.status(201).json(newIssue);
+}catch (err) {
+        res.status(500).json({message: `${err}`});
+}
 }
 
-const updateIssue = (req, res) => {
-    const issue = issues.find((issue) => issue.id === parseInt(req.params.id));
-    if (!issue) {
-      return  res.status(404).json({message: "Issue not found!"});
+const updateIssue = async (req, res) => {
+    try {
+        const issue = await Issue.findByPk(req.params.id);
+        if (!issue) {
+            return res.status(404).json({ message: "Issue not found" });
+        }
+
+        const { title, description, category, status } = req.body;
+
+        issue.title = title || issue.title;
+        issue.description = description || issue.description;
+        issue.category = category || issue.category;
+        issue.status = status || issue.status;
+
+        await issue.save();
+
+        res.json(issue);
+    } catch (err) {
+        res.status(500).json({ message: `${err}` });
     }
+};
 
-    const { title, description, category, status } = req.body;
-
-    issue.title = title || issue.title;
-    issue.description = description || issue.description;
-    issue.category = category || issue.category;
-    issue.status = status || issue.status;
-
-    res.json(issue);
-}
-
-const deleteIssue = (req, res) => {
-    const issueIndex = issues.findIndex((issue) => issue.id === parseInt(req.params.id));
-    if (issueIndex ===-1) {
-        return res.status(404).json({message: "issue Not Found!"});
+const deleteIssue = async (req, res) => {
+    try {
+        const issue = await Issue.findByPk(req.params.id);
+        if (!issue) {
+            return res.status(404).json({ message: "Issue not found" });
+        }
+        await issue.destroy();
+        res.json({ message: "Issue Deleted Successfully!" });
+    } catch (err) {
+        res.status(500).json({ message: `${err}` });
     }
-    issues.splice(issueIndex, 1);
-    res.json({message: "Issue Deleted Successfully!"});
-}
+};
+
 
 module.exports = {
     getAllIssues,

@@ -4,18 +4,18 @@ const router = express.Router();
 const cors = require('cors');
 
 const issueRoutes = require('./routes/issueRoutes');
+const authRoutes = require('./routes/auth');
+const sessionValidate = require('./middlewares/validate');
 
 
 
 const app = express();
-
-const PORT = process.env.PORT
-const HOST = process.env.HOST
-
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use("/issues", issueRoutes);
+app.use("/auth", authRoutes);
+app.use("/issues", sessionValidate, issueRoutes);
+
 
 
 module.exports = app;
