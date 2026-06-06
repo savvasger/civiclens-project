@@ -21,7 +21,7 @@ function validateSession(req, res, next) {
         req.user = payload;
         next();
     } catch (err) {
-        console.log(err);
+        console.log("JWT ERROR:", err.message);
         res.status(401).json({
             message: err.message || "Unauthorized",
         });

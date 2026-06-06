@@ -10,7 +10,10 @@ const JWT_KEY = process.env.JWT_KEY;
 async function registerUser(req, res) {
     try {
         const { fullName, email, password } = req.body;
-
+        const foundUser = await User.findOne({ where: { email } });
+        if (foundUser) {
+            throw new Error("User already exists");
+        }
         if (fullName && email && password) {
             const newUser = await User.create({
                 fullName,
@@ -33,6 +36,8 @@ async function registerUser(req, res) {
         } else {
             throw new Error("All fields are required");
         }
+        
+
     } catch (err) {
         console.log(err);
         res.status(500).json({

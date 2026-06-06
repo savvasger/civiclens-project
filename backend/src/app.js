@@ -6,6 +6,7 @@ const cors = require('cors');
 const issueRoutes = require('./routes/issueRoutes');
 const authRoutes = require('./routes/auth');
 const sessionValidate = require('./middlewares/validate');
+const validateSession = require('./middlewares/validate');
 
 
 
@@ -14,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/auth", authRoutes);
-app.use("/issues", sessionValidate, issueRoutes);
+app.use("/issues", validateSession, issueRoutes);
 
 
 
