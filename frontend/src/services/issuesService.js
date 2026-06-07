@@ -56,3 +56,24 @@ export async function updateIssue(id, issueData) {
 
   return response.json();
 }
+
+export async function deleteIssue(id) {
+  const token = localStorage.getItem("token");
+  
+
+  const response = await fetch(
+    `${API_URL}/issues/${id}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to delete issue");
+  }
+
+  return response.json();
+}

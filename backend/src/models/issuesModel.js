@@ -29,7 +29,11 @@ const Issue = db.define(
         votes: {
             defaultValue: 0,
             type: DataTypes.INTEGER
-        }
+        },
+        userId: {
+  type: DataTypes.INTEGER,
+  allowNull: false,
+},
     }
 );
 

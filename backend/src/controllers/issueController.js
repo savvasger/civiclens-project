@@ -33,13 +33,14 @@ const createIssue = async (req, res) => {
     }
     
 
-    const newIssue = await Issue.create({
-        title,
-        description,
-        category: category || "General",
-        status: "Open",
-        createdAt: new Date()
-    });
+const newIssue = await Issue.create({
+  title,
+  description,
+  category: category || "General",
+  status: "Open",
+  createdAt: new Date(),
+  userId: req.user.id,
+});
     res.status(201).json(newIssue);
 }catch (err) {
         res.status(500).json({message: `${err}`});
@@ -52,6 +53,12 @@ const updateIssue = async (req, res) => {
         if (!issue) {
             return res.status(404).json({ message: "Issue not found" });
         }
+
+        if (issue.userId !== req.user.id) {
+            return res.status(403).json({
+            message: "You can only edit your own issues"
+     });
+    }
 
         const { title, description, category, status } = req.body;
 
@@ -74,6 +81,12 @@ const deleteIssue = async (req, res) => {
         if (!issue) {
             return res.status(404).json({ message: "Issue not found" });
         }
+        
+        if (issue.userId !== req.user.id) {
+  return res.status(403).json({
+    message: "You can only delete your own issues"
+  });
+}
         await issue.destroy();
         res.json({ message: "Issue Deleted Successfully!" });
     } catch (err) {

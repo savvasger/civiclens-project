@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getIssueById } from "../services/issuesService";
-import { Link } from "react-router-dom";
+import { getIssueById, deleteIssue } from "../services/issuesService";
+import { Link, useNavigate} from "react-router-dom";
+import Navbar from "../components/NavBar";
 
 function IssueDetailPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [issue, setIssue] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -32,8 +34,29 @@ function IssueDetailPage() {
     return <h2>Issue not found</h2>;
   }
 
+  async function handleDelete() {
+  const confirmed = window.confirm(
+    "Are you sure you want to delete this issue?"
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
+  try {
+    await deleteIssue(id);
+
+    alert("Issue deleted");
+
+    navigate("/");
+  } catch (err) {
+    console.error(err);
+  }
+}
+
   return (
     <div>
+      <Navbar />
       <h1>{issue.title}</h1>
 
       <p>
@@ -52,6 +75,9 @@ function IssueDetailPage() {
     <Link to={`/issues/${issue.id}/edit`}>
       <button>Edit Issue</button>
     </Link>
+    <button onClick={handleDelete}>
+  Delete
+</button>
     </div>
   );
 }
