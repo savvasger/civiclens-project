@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createIssue } from "../services/createIssueService";
 import NavBar from "../components/NavBar";
 
+
 function CreateIssuePage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -32,7 +33,7 @@ function CreateIssuePage() {
       <NavBar />
       <h1>Create Issue</h1>
 
-      <form onSubmit={handleSubmit}>
+      <form className="issue-form" onSubmit={handleSubmit}>
         <div>
           <label>Title</label>
           <input

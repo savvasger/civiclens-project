@@ -55,13 +55,13 @@ const [selectedCategory, setSelectedCategory] = useState("All");
   
       <Navbar />
       <h1>Community Issues</h1>
-      <input
+      <input className="search-input"
   type="text"
   placeholder="Search issues..."
   value={searchTerm}
   onChange={(e) => setSearchTerm(e.target.value)}
 />
-<select
+<select className="category-select"
   value={selectedCategory}
   onChange={(e) => setSelectedCategory(e.target.value)}
 >

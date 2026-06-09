@@ -48,6 +48,7 @@ async function registerUser(req, res) {
 
 async function loginUser(req, res) {
     try {
+        console.log(req.body);
         const { email, password } = req.body;
         if (!email || !password) {
             throw new Error("Email and password are required");

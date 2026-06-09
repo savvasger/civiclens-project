@@ -6,6 +6,7 @@ import {
 } from "../services/issuesService";
 import Navbar from "../components/NavBar";
 
+
 function EditIssuePage() {
   const { id } = useParams();
 
@@ -49,7 +50,7 @@ function EditIssuePage() {
     <Navbar />
   <h1>Edit Issue</h1>
 
-  <form onSubmit={handleSubmit}>
+  <form className="issue-form" onSubmit={handleSubmit}>
     <div>
       <label>Title</label>
       <input

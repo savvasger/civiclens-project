@@ -9,7 +9,7 @@ function Navbar() {
   }
 
   return (
-    <nav>
+    <nav className="navbar">
       <h2>CivicLens</h2>
 
       <Link to="/">Home</Link>
@@ -20,7 +20,7 @@ function Navbar() {
 
       {" | "}
 
-      <button onClick={handleLogout}>
+      <button  onClick={handleLogout}>
         Logout
       </button>
     </nav>

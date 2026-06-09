@@ -4,6 +4,7 @@ import { getIssueById, deleteIssue } from "../services/issuesService";
 import { Link, useNavigate} from "react-router-dom";
 import Navbar from "../components/NavBar";
 
+
 function IssueDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ function IssueDetailPage() {
 }
 
   return (
-    <div>
+    <div className="issue-detail-page">
       <Navbar />
       <h1>{issue.title}</h1>
 

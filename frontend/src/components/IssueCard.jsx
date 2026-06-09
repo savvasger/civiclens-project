@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 function IssueCard({ issue }) {
   return (
 
-    <div>
+    <div className="issue-card">
       <Link to={`/issues/${issue.id}`}>
       <h3>{issue.title}</h3>
 

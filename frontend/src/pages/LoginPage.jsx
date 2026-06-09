@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 
+
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,8 +11,12 @@ function LoginPage() {
 
   async function handleSubmit(event) {
   event.preventDefault();
+  if (!email || !password) {
+  alert("Email and password are required");
+  return;
+}
 
-  try {
+   try {
     const response = await fetch(
       "http://localhost:5000/auth/login",
       {
@@ -28,42 +33,46 @@ function LoginPage() {
 
     const data = await response.json();
 
-    console.log(data);
+    if (!response.ok) {
+      alert(data.message);
+      return;
+    }
 
     localStorage.setItem("token", data.token);
-    console.log("Token Saved!")
-    navigate("/");
 
     alert("Login successful!");
+
+    navigate("/");
   } catch (err) {
     console.error(err);
   }
 }
-
   return (
     <div>
     <h1>Login</h1>
 
-    <form onSubmit={handleSubmit}>
-      <div>
+    <form  onSubmit={handleSubmit}>
+      
+      <div >
         <label>Email</label>
-        <input
+        <input className="input"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
       </div>
 
-      <div>
+      <div >
         <label>Password</label>
-        <input
+        <input className="input"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
+      
 
-      <button type="submit">
+      <button  className="login-button" type="submit">
         Login
       </button>
     </form>

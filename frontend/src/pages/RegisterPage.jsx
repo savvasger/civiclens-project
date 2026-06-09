@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
+
 function RegisterPage() {
   const navigate = useNavigate();
 
@@ -45,10 +46,10 @@ function RegisterPage() {
   }
 
   return (
-    <div>
+    <div className="issue-detail-page">
       <h1>Register</h1>
 
-      <form onSubmit={handleSubmit}>
+      <form className="issue-form" onSubmit={handleSubmit}>
         <div>
           <label>Full Name</label>
           <input

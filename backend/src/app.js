@@ -5,7 +5,7 @@ const cors = require('cors');
 
 const issueRoutes = require('./routes/issueRoutes');
 const authRoutes = require('./routes/auth');
-const sessionValidate = require('./middlewares/validate');
+
 const validateSession = require('./middlewares/validate');
 
 
