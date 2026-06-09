@@ -1,9 +1,9 @@
-const API_URL = "http://localhost:5000";
+const API_URL = "";
 
 export async function createIssue(issueData) {
   const token = localStorage.getItem("token");
 
-  const response = await fetch(`${API_URL}/issues`, {
+  const response = await fetch("/issues", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
